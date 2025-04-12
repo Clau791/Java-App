@@ -8,9 +8,9 @@ import java.util.Arrays;
 
 public class Service {
 
+    // la apelarea constructorului initializam cateva sali si facultati
     public Service(){
         initializareFacultati();
-
     }
 
     Scanner scanner = new Scanner(System.in);
@@ -37,7 +37,7 @@ public class Service {
         int optiuneFacultate = scanner.nextInt();
         scanner.nextLine();
 
-        Facultate facultate = facultati.get(optiuneFacultate - 1);  // Obținem facultatea selectată
+        Facultate facultate = facultati.get(optiuneFacultate - 1);  // Obținem facultatea selectata
 
         if (tip.equalsIgnoreCase("Student")) {
             System.out.print("An studiu: ");
@@ -73,16 +73,16 @@ public class Service {
     }
 
 
-    // 2. Afișează săli disponibile
+    // 2. Afișeaza sali disponibile
     public void afiseazaSaliDisponibile() {
         for (Facultate f : facultati) {
             for (Sala s : f.getSali()) {
-                System.out.println("Sala: " + s.getNume() + " (Capacitate: " + s.getCapacitate() + ")");
+                s.displaySala();
             }
         }
     }
 
-    // 3. Afișează săli dintr-o facultate
+    // 3. Afișează sali dintr-o facultate
     public void afiseazaSaliFacultate() {
 
         System.out.println("Alege Facultatea :");
@@ -98,22 +98,29 @@ public class Service {
             Facultate f = facultati.get(optiuneFacultate - 1);
             System.out.println("Săli disponibile în " + f.getNume() + ":");
             for (Sala s : f.getSali()) {
-                System.out.println("Sala: " + s.getNume() + " (Capacitate: " + s.getCapacitate() + ")");
+                s.displaySala();
             }
         } else {
             System.out.println("Opțiune invalidă.");
         }
     }
 
-    // 4. Rezervă o sală
+    // 4. Rezerva o sală
     public void rezervaSala(int tip) {
+        Utilizator u = utilizatori.getFirst();
+
         // tip 1 -> seminar, 2 -> laborator , 3-> curs
         if(tip != 1 && utilizatori.getFirst() instanceof Student){
             System.out.println("Studentii pot rezerva doar sali de seminar.");
             return;
         }
+        if (u instanceof Student){
+            if ( ((Student) u).getNr_rez_disponibil() == 0){
+                System.out.println("Nu mai poti face rezervari !");
+            }
+        }
 
-        System.out.print("Numele sălii: ");
+        System.out.print("Numele salii: ");
         String numeSala = scanner.nextLine();
 
         System.out.print("Zi: ");
@@ -136,41 +143,59 @@ public class Service {
         }
 
         if (salaGasita == null) {
-            System.out.println("Sala nu există!");
+            System.out.println("Sala nu exista!");
             return;
         }
-
-        Utilizator u = utilizatori.getFirst();
 
         // ca sa verificam daca s-a adaugat rezervarea comparam nr de rez ale salii dupa si inainte
         int before = salaGasita.getRez().size();
         Rezervare r = new Rezervare(salaGasita, u, zi, interval);
         int after = salaGasita.getRez().size();
 
-        if (before != after) { // doar dacă a fost validata
+        // se va afisa daca exista interval care se suprapune
+        if (before != after) { // doar daca a fost validata
             u.adaugaRezervare(r, salaGasita);
+            // daca rezervarea a fost facuta de un student scadem numarul de rez pe care le poate face
+            if (u instanceof Student){
+                ((Student) u).setNr_rez_disponibil(1);
+            }
         }
     }
 
     // 7. Rezerva mai multe sali (max 3 pentru studenți)
     public void rezervareMultiple() {
-        int count = 0;
+        Utilizator u = utilizatori.getFirst();
+        int count;
+        // daca este student are doar dreptul la 3 rez pe luna
+        // altfel este profesor si poate rezerva mai multe
+        if (u instanceof Student){
+            count = ((Student) u).getNr_rez_disponibil();
+        }
+        else{
+            count = 999999;
+        }
         while (count < 3) {
             System.out.println("Rezervare #" + (count + 1));
             int tip = 2;
+
             if(utilizatori.getFirst() instanceof Student){
                 tip = 1;
             }
             rezervaSala(tip);
-            count++;
+            count--;
 
             System.out.print("Mai vrei să rezervi? (da/nu): ");
             String raspuns = scanner.nextLine();
             if (!raspuns.equalsIgnoreCase("da")) break;
         }
+        // setam numarul de rezervari ramase
+        if (u instanceof Student){
+            ((Student) u).setNr_rez_disponibil(count);
+        }
     }
 
-    // 8. Rezervare recurentă (doar pentru profesori)
+    // 8. Rezervare recurenta (doar pentru profesori)
+    // pentru a rezerva o sala in fiecare zi a saptamanii
     public void rezervareRecurenta() {
         Utilizator u = utilizatori.getFirst();
         if (!(u instanceof Profesor)) {
@@ -202,38 +227,40 @@ public class Service {
 
 
         for (int zi = 1; zi <= 5; zi++) {
+
+            int before = salaGasita.getRez().size();
             Rezervare r = new Rezervare(salaGasita, u, zi, interval);
-            if (r.getId() >= 0) {
+            int after = salaGasita.getRez().size();
+
+            if (before != after) {
                 u.adaugaRezervare(r, salaGasita);
             }
         }
     }
 
-    // 9. Vezi rezervările
+    // 9. Vezi rezervarile
     public void veziRezervari() {
         Utilizator u =utilizatori.getFirst();
         u.afiseazaRezervari();
-
     }
 
-    // 10. Corectează rezervări
+    // 10. Corecteaza rezervari
     public void StergeRezervare() {
         Utilizator u = utilizatori.getFirst();
         Vector<Rezervare> rez = u.getRezervari();
 
         if (rez.isEmpty()) {
-            System.out.println("Nu ai rezervări de șters.");
+            System.out.println("Nu ai rezervari de sters.");
             return;
         }
 
-
         while (true) {
-            System.out.println("Rezervările tale:");
+            System.out.println("Rezervarile tale:");
             for (Rezervare r : rez) {
                 r.afiseazaRezervare();
             }
 
-            System.out.print("Alege numarul rezervarii pe care vrei să o ștergi: ");
+            System.out.print("Alege numarul rezervarii pe care vrei sa o ștergi: ");
             int index = scanner.nextInt() ; // utilizatorul ne da indexul incepand de la 1
 
             scanner.nextLine();
@@ -248,12 +275,12 @@ public class Service {
                 rez.remove(index);
                 sala.getRez().remove(rezervareDeSters);
 
-                System.out.println("Rezervarea a fost ștearsă cu succes!");
+                System.out.println("Rezervarea a fost ștearsa cu succes!");
             } else {
                 System.out.println("Index invalid!");
             }
 
-            System.out.print("Mai dorești să ștergi o rezervare? (da/nu): ");
+            System.out.print("Mai dorești sa ștergi o rezervare? (da/nu): ");
             String raspuns = scanner.nextLine();
             if (!raspuns.equalsIgnoreCase("da")) break;
         }

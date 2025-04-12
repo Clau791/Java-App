@@ -22,6 +22,14 @@ public final class Student extends Utilizator{
         this.An_Studiu = anStudiu;
     }
 
+    public int getNr_rez_disponibil() {
+        return nr_rez_disponibil;
+    }
+
+    public void setNr_rez_disponibil(int count) {
+        this.nr_rez_disponibil = count;
+    }
+
     public void solicitaRezervare(Sala sala, int zi, String interval) {
         Rezervare rezervare = new Rezervare(sala, this, zi, interval);
         adaugaRezervare(rezervare, sala);

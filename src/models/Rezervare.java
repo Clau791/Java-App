@@ -37,12 +37,15 @@ public class Rezervare {
         return sala;
     }
 
+    // fiecare rezervare noua va trece prin functia de validare
     private boolean validateInterval(Sala sala, int zi, String interval){
         Vector<Rezervare> rezervari = sala.getRez();
+        // luam toate rezervarile salii din care dorim sa facem noua rez
 
         for(Rezervare rezevare : rezervari){
-            data = rezevare.getData();
+            data = rezevare.getData(); // hashmap care are cheile -> zile
             if(data.containsKey(zi)){
+                // daca contine ziua in care vrem sa rezervarea iteram prin intervalele rezervate
                 for(String r : data.get(zi)){
                 // ore stocate
                 String intervalStocat = r;
@@ -57,7 +60,7 @@ public class Rezervare {
                 int startI = convertToMinutes(ore_i[0]); // 12:00 → 720 minute
                 int endI = convertToMinutes(ore_i[1]);   // 13:30 → 840 minute
                 
-                // Verificăm dacă există suprapunere
+                // Verificam daca exista suprapunere
 
                 // D: 13:00-14:30, I: 14:00-15:30
                 if (startI <= endD && startD < startI) {
@@ -110,6 +113,7 @@ public class Rezervare {
             data.put(zi, new Vector<>());
         }
         data.get(zi).add(interval);
+        // adaugam rezervarea in sala pentru a tine evidenta fiecare rezervare a fiecarei sali
         sala.addRez(this);
         System.out.println("Rezervare: " + id + " in " + sala.getNume());
 
