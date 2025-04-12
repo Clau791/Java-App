@@ -1,15 +1,14 @@
 package models;
-import models.Rezervare;
 
 import java.util.Vector;
 
 public class Sala {
     // Sala (id, nume, capacitate)
     private static int sali = 0;
-    private int id;
+    private final int id;
     private String nume;
-    private int capacitate;
-    private Vector<Rezervare> rezervari = new Vector<Rezervare>();
+    private final int capacitate;
+    private final Vector<Rezervare> rezervari = new Vector<>();
 
     public int getId() {
         return id;

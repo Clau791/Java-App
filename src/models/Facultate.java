@@ -2,10 +2,10 @@ package models;
 
 import java.util.Vector;
 public class Facultate {
-    private int id ;
+    private final int id ;
     private static int contor = 0;
-    private String nume ;
-    private Vector<Sala> sali = new Vector<>();
+    private final String nume ;
+    private Vector<Sala> sali;
 
     public int getId() {
         return id;

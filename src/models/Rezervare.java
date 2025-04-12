@@ -107,7 +107,7 @@ public class Rezervare {
         this.zi = zi;
 
         if (!data.containsKey(zi)) {
-            data.put(zi, new Vector<String>());
+            data.put(zi, new Vector<>());
         }
         data.get(zi).add(interval);
         sala.addRez(this);

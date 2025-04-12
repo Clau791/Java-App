@@ -2,8 +2,8 @@ package models;
 
 public final class Student extends Utilizator{
     private int An_Studiu;
-    private int grupa;
-    private int Nr_Matricol;
+    private final int grupa;
+    private final int Nr_Matricol;
     private int nr_rez_disponibil = 3;
 
     public Student(String nume, String email, Facultate facultate, int AnStudiu, int grupa, int nr_matricol) {

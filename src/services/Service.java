@@ -2,7 +2,9 @@ package services;
 
 import models.*;
 
-import java.util.*;
+import java.util.Scanner;
+import java.util.Vector;
+import java.util.Arrays;
 
 public class Service {
 
@@ -12,8 +14,8 @@ public class Service {
     }
 
     Scanner scanner = new Scanner(System.in);
-    private Vector<Facultate> facultati = new Vector<>();
-    private Vector<Utilizator> utilizatori = new Vector<>();
+    private final Vector<Facultate> facultati = new Vector<>();
+    private final Vector<Utilizator> utilizatori = new Vector<>();
 
     // 1. Creează cont
     public void creeazaCont() {
@@ -104,7 +106,13 @@ public class Service {
     }
 
     // 4. Rezervă o sală
-    public void rezervaSala() {
+    public void rezervaSala(int tip) {
+        // tip 1 -> seminar, 2 -> laborator , 3-> curs
+        if(tip != 1 && utilizatori.getFirst() instanceof Student){
+            System.out.println("Studentii pot rezerva doar sali de seminar.");
+            return;
+        }
+
         System.out.print("Numele sălii: ");
         String numeSala = scanner.nextLine();
 
@@ -132,7 +140,7 @@ public class Service {
             return;
         }
 
-        Utilizator u = utilizatori.get(0);
+        Utilizator u = utilizatori.getFirst();
 
         // ca sa verificam daca s-a adaugat rezervarea comparam nr de rez ale salii dupa si inainte
         int before = salaGasita.getRez().size();
@@ -144,13 +152,16 @@ public class Service {
         }
     }
 
-    // 5. Rezerva mai multe sali (max 3 pentru studenți)
+    // 7. Rezerva mai multe sali (max 3 pentru studenți)
     public void rezervareMultiple() {
-        Utilizator u = utilizatori.get(0);
         int count = 0;
         while (count < 3) {
             System.out.println("Rezervare #" + (count + 1));
-            rezervaSala();
+            int tip = 2;
+            if(utilizatori.getFirst() instanceof Student){
+                tip = 1;
+            }
+            rezervaSala(tip);
             count++;
 
             System.out.print("Mai vrei să rezervi? (da/nu): ");
@@ -159,9 +170,9 @@ public class Service {
         }
     }
 
-    // 6. Rezervare recurentă (doar pentru profesori)
+    // 8. Rezervare recurentă (doar pentru profesori)
     public void rezervareRecurenta() {
-        Utilizator u = utilizatori.get(0);
+        Utilizator u = utilizatori.getFirst();
         if (!(u instanceof Profesor)) {
             System.out.println("Doar profesorii pot face rezervări recurente.");
             return;
@@ -198,16 +209,16 @@ public class Service {
         }
     }
 
-    // 7. Vezi rezervările
+    // 9. Vezi rezervările
     public void veziRezervari() {
-        Utilizator u =utilizatori.get(0);
+        Utilizator u =utilizatori.getFirst();
         u.afiseazaRezervari();
 
     }
 
-    // 8. Corectează rezervări
+    // 10. Corectează rezervări
     public void StergeRezervare() {
-        Utilizator u = utilizatori.get(0);
+        Utilizator u = utilizatori.getFirst();
         Vector<Rezervare> rez = u.getRezervari();
 
         if (rez.isEmpty()) {
@@ -223,10 +234,12 @@ public class Service {
             }
 
             System.out.print("Alege numarul rezervarii pe care vrei să o ștergi: ");
-            int index = scanner.nextInt() + 1;
+            int index = scanner.nextInt() ; // utilizatorul ne da indexul incepand de la 1
+
             scanner.nextLine();
 
-            if (index >= 0 && index < rez.size()) {
+            if (index >= 1 && index < rez.size() + 1) {
+                index = index - 1;
 
                 Rezervare rezervareDeSters = rez.get(index);
                 Sala sala = rezervareDeSters.getSala();
@@ -250,15 +263,15 @@ public class Service {
 
     private void initializareFacultati() {
         // sali pentru FMI
-        Sala sala1 = new Sala("Amfiteatru A1", 120);
-        Sala sala2 = new Sala("Laborator L1", 30);
-        Sala sala3 = new Sala("Seminar S1", 40);
+        Sala sala1 = new Sala_Amfiteatru("Amfiteatru-1 FMI", 120);
+        Sala sala2 = new Sala_Laborator("Laborator-1 FMI", 30);
+        Sala sala3 = new Sala_Seminar("Seminar-1 FMI", 40);
         Vector<Sala> saliFMI = new Vector<>(Arrays.asList(sala1, sala2, sala3));
         Facultate fmi = new Facultate("FMI", saliFMI);
 
         // Sali pentru Arhitectura
-        Sala sala4 = new Sala("Amfiteatru E1", 150);
-        Sala sala5 = new Sala("Laborator E2", 25);
+        Sala sala4 = new Sala_Amfiteatru("Amfiteatru-1 Arh ", 150);
+        Sala sala5 = new Sala_Laborator("Laborator-2 Arh ", 25);
         Vector<Sala> saliEnergetica = new Vector<>(Arrays.asList(sala4, sala5));
         Facultate Arhitectura = new Facultate("Arhitectura", saliEnergetica);
 
