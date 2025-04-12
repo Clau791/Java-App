@@ -14,22 +14,21 @@ public class MultipleAdd {
         for(int i = 0 ; i < n ; i++){
             System.out.print("Introduceti ID-ul salii pe care o doriti sa o rezervati: ");
             int id_sala = scanner.nextInt();
-            scanner.nextLine(); // Consumă newline-ul rămas
+            scanner.nextLine();
 
             System.out.print("Introdu numele: ");
             String utilizator = scanner.nextLine();
-            scanner.nextLine(); // Consumă newline-ul rămas
+            scanner.nextLine();
 
             System.out.print("Introdu ziua: ");
             int zi = scanner.nextInt();
-            scanner.nextLine(); // Consumă newline-ul rămas
+            scanner.nextLine();
 
             System.out.print("Introdu intervalul: ");
 
             String interval = scanner.nextLine();
 
-            RezervareService r = RezervareService.getInstance();
-            r.adaugaRezervare(id_sala, utilizator, zi, interval);
+            // adauga datele
         }
         scanner.close();
 

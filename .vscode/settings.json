@@ -4,11 +4,11 @@
     ],
 
     "java.project.sourcePaths": [
+        "src",
         "src/utils",
         "src/services",
         "src/models",
-        "src/lib",
-        "src"
+        "src/lib"
     ]
 
 

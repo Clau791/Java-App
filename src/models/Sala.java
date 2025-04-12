@@ -1,3 +1,6 @@
+package models;
+import models.Rezervare;
+
 import java.util.Vector;
 
 public class Sala {
@@ -37,15 +40,10 @@ public class Sala {
         this.nume = nume;
         this.capacitate = capacitate;
 
-        RezervareService r = RezervareService.getInstance();
-        r.adaugaSala(nume, capacitate);
-
     }
 
     public void displaySala(){
-        RezervareService r = RezervareService.getInstance();
-        r.afiseazaRezervariSala(id);
-        
+
         System.out.println("ID: " + getId());
         System.out.println("Nume: " + getNume());
         System.out.println("Capacitate: " + getCapacitate());

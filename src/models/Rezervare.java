@@ -1,14 +1,16 @@
+package models;
 // Rezervare (id, sala, utilizator, data, interval_orar)
 
 import java.util.HashMap;
 import java.util.Vector;
+
 public class Rezervare {
     private static int nr = 0;
     private int id;
     private int zi;
     private String ora;
     private Sala sala;
-    private String utilizator;
+    private Utilizator utilizator;
     private HashMap<Integer,Vector< String> > data = new HashMap<>() ;
 
     public int getId() {
@@ -27,7 +29,7 @@ public class Rezervare {
         return data;
     }
 
-    public String getUtilizator(){
+    public Utilizator getUtilizator(){
         return utilizator;
     }
 
@@ -35,7 +37,7 @@ public class Rezervare {
         return sala;
     }
 
-    public boolean validateInterval(Sala sala, int zi, String interval){
+    private boolean validateInterval(Sala sala, int zi, String interval){
         Vector<Rezervare> rezervari = sala.getRez();
 
         for(Rezervare rezevare : rezervari){
@@ -58,7 +60,7 @@ public class Rezervare {
                 // Verificăm dacă există suprapunere
 
                 // D: 13:00-14:30, I: 14:00-15:30
-                if (startI < endD && startD < startI) {
+                if (startI <= endD && startD < startI) {
                     System.out.println("❌ Suprapunere detectată!");
                     return false;
                 }
@@ -70,7 +72,7 @@ public class Rezervare {
                 }
                 //                    
                 // D: 13:00-14:30, I: 13:30-14:00
-                if (startI > startD && endI < endD) {
+                if (startI >= startD && endI <= endD) {
                     System.out.println("❌ Suprapunere detectată!");
                     return false;
                 }
@@ -89,18 +91,29 @@ public class Rezervare {
     }
 
 
-    public Rezervare(Sala sala, String utilizator, Integer zi, String interval) {
+    public void afiseazaRezervare() {
+        System.out.println("Rezervare în sala " + this.getSala().getNume() +
+                " pe data de " + this.getZi() +
+                " între " + this.getOra());
+    }
+
+    public Rezervare(Sala sala, Utilizator utilizator, Integer zi, String interval) {
         // stocam toate rezervarile salii din baza de date pentru a verifica daca se intersecteaza intervale
         if(validateInterval(sala, zi , interval)){
         id = nr++;
         this.sala = sala;
         this.utilizator = utilizator;
+        this.ora = interval;
+        this.zi = zi;
+
         if (!data.containsKey(zi)) {
             data.put(zi, new Vector<String>());
         }
         data.get(zi).add(interval);
-        System.out.println("Rezervare: " + id);
+        sala.addRez(this);
+        System.out.println("Rezervare: " + id + " in " + sala.getNume());
 
+        }
     }
-    }
+
 }

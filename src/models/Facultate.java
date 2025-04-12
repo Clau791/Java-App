@@ -1,3 +1,5 @@
+package models;
+
 import java.util.Vector;
 public class Facultate {
     private int id ;
@@ -17,7 +19,7 @@ public class Facultate {
         return sali;
     }
 
-    void addSala(Sala sala){
+    public void addSala(Sala sala){
         sali.add(sala);
     }
 

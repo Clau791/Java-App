@@ -1,19 +1,50 @@
-
+import models.*;
+import services.Service;
+import java.util.Scanner;
+import java.util.Vector;
 
 public class Main {
 
     public static void main(String[] args) {
-        //PersonService personService = new PersonService();
-        RezervareService c_sala = RezervareService.getInstance();
-        // c_sala.afiseazaRezervariSala(1);
-        
-        // -> apeleaza adaugaRez din
-        //    RezervareService -> ia toate rezervarile curente salii -> verifica daca are intervale suprapuse
-        c_sala.adaugaRezervare(1, "marcel", 1, "13:00-14:30");
+        Scanner scanner = new Scanner(System.in);
+        Service service = new Service();
 
-        // c_sala.adaugaRezervare(1, "Claudiu", 1, "12:00-13:00");
-        // c_sala.adaugaRezervare(2, "Claudiu", 1, "12:00-13:00");
-        // c_sala.adaugaRezervare(3, "Claudiu", 2, "14:00-15:00");
+        System.out.println("\\n=== Sistem de rezervare a sălilor ===");
+
+        int modificariRamase = 10;
+        boolean running = true;
+        while (running) {
+            System.out.println("\n===== Sistem de Rezervare a Sălilor =====");
+            System.out.println("1. Creează cont");
+            System.out.println("2. Vizualizează sălile disponibile");
+            System.out.println("3. Vizualizează sălile disponibile dintr-o anumită facultate");
+            System.out.println("4. Rezervă o sală");
+            System.out.println("5. Rezervă mai multe săli (maxim 3 pentru studenți)");
+            System.out.println("6. Rezervă o sală recurent (doar pentru profesori)");
+            System.out.println("7. Vezi rezervările tale");
+            System.out.println("8. Corectează rezervări (maxim 10 modificări)");
+            System.out.println("9. Ieșire");
+            System.out.print("Alege o opțiune: ");
+
+            int opt = scanner.nextInt();
+            scanner.nextLine();
+            switch (opt) {
+                case 1 -> service.creeazaCont();
+                case 2 -> service.afiseazaSaliDisponibile();
+                case 3 -> service.afiseazaSaliFacultate();
+                case 4 -> service.rezervaSala();
+                case 5 -> service.rezervareMultiple();
+                case 6 -> service.rezervareRecurenta();
+                case 7 -> service.veziRezervari();
+                case 8 -> service.StergeRezervare();
+                case 9 -> {
+                    System.out.println("La revedere!");
+                    running = false;
+                }
+                default -> System.out.println("Opțiune invalidă!");
+            }
+        }
+
     }
 }
 
