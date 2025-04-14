@@ -1,5 +1,6 @@
 package models;
 
+import java.util.HashMap;
 import java.util.Vector;
 
 public class Sala {
@@ -8,7 +9,8 @@ public class Sala {
     private final int id;
     private String nume;
     private final int capacitate;
-    private final Vector<Rezervare> rezervari = new Vector<>();
+
+    private final Vector<Rezervare> rezervari = new Vector<>(); // colectie de date pe care o sortam
 
     public int getId() {
         return id;
@@ -25,14 +27,32 @@ public class Sala {
     public Vector<Rezervare> getRez(){
         return rezervari;
     }
-    
+
     public void setNume(String name) {
         this.nume = name;
     }
-    
-    public void addRez(Rezervare R){
-        rezervari.add(R);
+
+    // Transforma ora de tipul "12:00-14:00" în minute (doar ora de început)
+
+    private int parseStart(String ora) {
+        String[] parts = ora.split("[-:]");
+        return Integer.parseInt(parts[0]) * 60 + Integer.parseInt(parts[1]);
     }
+
+    public void addRez(Rezervare r) {
+        int zi = r.getZi();
+        int startR = parseStart(r.getOra());
+
+        int i = 0;
+        while (i < rezervari.size()) {
+            Rezervare stocata = rezervari.get(i);
+            if (zi < stocata.getZi()) break;
+            if (zi == stocata.getZi() && startR < parseStart(stocata.getOra())) break;
+            i++;
+        }
+        rezervari.add(i, r); // inserează sortat
+    }
+
 
     public Sala(String nume, int capacitate) {
         this.id = sali++;

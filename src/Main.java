@@ -9,8 +9,6 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         Service service = new Service();
 
-        System.out.println("\\n=== Sistem de rezervare a sălilor ===");
-
         int modificariRamase = 10;
         boolean running = true;
         while (running) {
@@ -53,19 +51,3 @@ public class Main {
 }
 
 
-// 
-// 📌 Obiecte principale
-
-// Sala (id, nume, capacitate, rezervari)
-// Amfiteatru (id, nume, capacitate, disponibilitate) - derivat din Sala
-// Rezervare (id, sala, utilizator, data, interval_orar)
-// Utilizator (id, nume, tip utilizator - student/profesor/admin)
-// Eveniment (id, titlu, sală, organizator, descriere)
-// Facultate(id, nume, sali )
-
-// 📌 Acțiuni posibile
-// ✔️ Căutare săli disponibile
-// ✔️ Creare rezervare
-// ✔️ Anulare rezervare
-// ✔️ Vizualizare istoric rezervări
-// ✔️ Gestionare drepturi utilizatori (ex: admin poate bloca săli)

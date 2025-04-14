@@ -27,7 +27,7 @@ public final class Student extends Utilizator{
     }
 
     public void setNr_rez_disponibil(int count) {
-        this.nr_rez_disponibil = count;
+        this.nr_rez_disponibil -= count;
     }
 
     public void solicitaRezervare(Sala sala, int zi, String interval) {

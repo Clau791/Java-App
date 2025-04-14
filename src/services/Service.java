@@ -5,6 +5,7 @@ import models.*;
 import java.util.Scanner;
 import java.util.Vector;
 import java.util.Arrays;
+import java.util.regex.Pattern;
 
 public class Service {
 
@@ -28,6 +29,11 @@ public class Service {
         System.out.print("Email: ");
         String email = scanner.nextLine();
 
+        // validare email
+        if (!validEmail(email)) {
+            System.out.println("Adresa de email invalidă!");
+            creeazaCont();
+        }
         System.out.println("Alege Facultatea ta:");
         for (int i = 0; i < facultati.size(); i++) {
             System.out.println((i + 1) + ". " + facultati.get(i).getNume());
@@ -70,6 +76,8 @@ public class Service {
         } else {
             System.out.println("Tipul introdus nu este valid. Alege între 'Student' sau 'Profesor'.");
         }
+        scanner.nextLine();
+
     }
 
 
@@ -80,6 +88,8 @@ public class Service {
                 s.displaySala();
             }
         }
+        scanner.nextLine();
+
     }
 
     // 3. Afișează sali dintr-o facultate
@@ -103,6 +113,8 @@ public class Service {
         } else {
             System.out.println("Opțiune invalidă.");
         }
+        scanner.nextLine();
+
     }
 
     // 4. Rezerva o sală
@@ -157,9 +169,13 @@ public class Service {
             u.adaugaRezervare(r, salaGasita);
             // daca rezervarea a fost facuta de un student scadem numarul de rez pe care le poate face
             if (u instanceof Student){
+                // scadem 1 rezervare
                 ((Student) u).setNr_rez_disponibil(1);
+                System.out.println("Mai ai la dispozitie " + ((Student) u ).getNr_rez_disponibil()+ " rezervare/rezervari");
             }
         }
+        scanner.nextLine();
+
     }
 
     // 7. Rezerva mai multe sali (max 3 pentru studenți)
@@ -192,6 +208,8 @@ public class Service {
         if (u instanceof Student){
             ((Student) u).setNr_rez_disponibil(count);
         }
+        scanner.nextLine();
+
     }
 
     // 8. Rezervare recurenta (doar pentru profesori)
@@ -236,12 +254,16 @@ public class Service {
                 u.adaugaRezervare(r, salaGasita);
             }
         }
+        scanner.nextLine();
+
     }
 
     // 9. Vezi rezervarile
     public void veziRezervari() {
         Utilizator u =utilizatori.getFirst();
         u.afiseazaRezervari();
+        scanner.nextLine();
+
     }
 
     // 10. Corecteaza rezervari
@@ -284,9 +306,15 @@ public class Service {
             String raspuns = scanner.nextLine();
             if (!raspuns.equalsIgnoreCase("da")) break;
         }
+        scanner.nextLine();
+
     }
 
 
+    private boolean validEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        return Pattern.compile(emailRegex).matcher(email).matches();
+    }
 
     private void initializareFacultati() {
         // sali pentru FMI
@@ -301,6 +329,7 @@ public class Service {
         Sala sala5 = new Sala_Laborator("Laborator-2 Arh ", 25);
         Vector<Sala> saliEnergetica = new Vector<>(Arrays.asList(sala4, sala5));
         Facultate Arhitectura = new Facultate("Arhitectura", saliEnergetica);
+
 
         facultati.add(fmi);
         facultati.add(Arhitectura);

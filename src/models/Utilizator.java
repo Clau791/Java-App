@@ -1,6 +1,8 @@
 package models;
 
 import java.util.Vector;
+import java.util.regex.Pattern;
+import java.util.regex.Pattern;
 
 public class Utilizator {
     private String nume;
@@ -8,8 +10,20 @@ public class Utilizator {
     private Facultate facultate;
     private final Vector<Rezervare> rezervari = new Vector<>();
 
+    // validare email
+    private boolean validEmail(String email) {
+        String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+        return Pattern.compile(emailRegex).matcher(email).matches();
+    }
+
     // Constructor
     public Utilizator(String nume, String email, Facultate facultate) {
+
+        if (!validEmail(email)) {
+            System.out.println("Adresa de email invalidă!");
+            throw new IllegalArgumentException("Email invalid");
+        }
+
         this.nume = nume;
         this.email = email;
         this.facultate = facultate;

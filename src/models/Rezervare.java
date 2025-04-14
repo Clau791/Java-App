@@ -115,7 +115,8 @@ public class Rezervare {
         data.get(zi).add(interval);
         // adaugam rezervarea in sala pentru a tine evidenta fiecare rezervare a fiecarei sali
         sala.addRez(this);
-        System.out.println("Rezervare: " + id + " in " + sala.getNume());
+        int nr = id + 1;
+        System.out.println("Rezervare: " + nr + " in " + sala.getNume());
 
         }
     }
