@@ -73,7 +73,7 @@ Clasa principala care contine meniul interactiv si face apeluri catre clasa `Ser
 - **Accesul la date**: Fiecare clasa are metode de acces pentru a manipula atributele private. Acestea sunt utilizate pentru a gestiona informatiile despre utilizatori, sali si rezervari.
   
 - **Structuri de date**:
-  - Am folosit HashMap in clasa Rezervare pentru a organiza rezervarile din fiecare zi (colectie ordonata cu zilele sortate crescator).
+  - Am folosit functie de sortare in Clasa Sala pentru a afisa rezervarile ei in mod ordonat
   - Am folosit Vector in clasele Sala, Facultate si Utilizatori pentru a pastra datele ordonat.
 
 - **Mostenire**:
