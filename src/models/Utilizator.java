@@ -5,10 +5,15 @@ import java.util.regex.Pattern;
 import java.util.regex.Pattern;
 
 public class Utilizator {
+    protected int id;
     private String nume;
     private String email;
-    private Facultate facultate;
+    private int facultate;
     private final Vector<Rezervare> rezervari = new Vector<>();
+
+    public int getId(){
+        return id;
+    };
 
     // validare email
     private boolean validEmail(String email) {
@@ -17,13 +22,8 @@ public class Utilizator {
     }
 
     // Constructor
-    public Utilizator(String nume, String email, Facultate facultate) {
-
-        if (!validEmail(email)) {
-            System.out.println("Adresa de email invalidă!");
-            throw new IllegalArgumentException("Email invalid");
-        }
-
+    public Utilizator(String nume, String email, int facultate, int id) {
+        this.id = id;
         this.nume = nume;
         this.email = email;
         this.facultate = facultate;
@@ -46,11 +46,11 @@ public class Utilizator {
         this.email = email;
     }
 
-    public Facultate getFacultate() {
+    public int getFacultate() {
         return facultate;
     }
 
-    public void setFacultate(Facultate facultate) {
+    public void setFacultate(int facultate) {
         this.facultate = facultate;
     }
 
@@ -68,8 +68,8 @@ public class Utilizator {
     public void afisareProfil() {
         System.out.println("Nume: " + nume);
         System.out.println("Email: " + email);
-        if (facultate != null) {
-            System.out.println("Facultate: " + facultate.getNume()); // presupunem că Facultate are getNume()
+        if (facultate != 0) {
+            System.out.println("Facultate: " + facultate); // presupunem că Facultate are getNume()
         }
     }
 

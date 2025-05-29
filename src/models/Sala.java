@@ -66,13 +66,6 @@ public class Sala {
         System.out.println("ID: " + getId());
         System.out.println("Nume: " + getNume());
         System.out.println("Capacitate: " + getCapacitate());
-        System.out.println("Rezervarile salii: ");
-
-        for(Rezervare rez : getRez()){
-            // obiecte de tip rezervare care au ca data hashmap cu toate programarile din zi ale salii
-            System.out.println("Data: " + rez.getData());
-            break;
-        }
 
     }
 

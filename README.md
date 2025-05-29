@@ -9,6 +9,8 @@ Aplicatia gestioneaza o lista de sali de curs si permite utilizatorilor sa creez
 ```
 Proiect_Etapa1
 ├── src
+│   ├── lib
+│   │   └──  postgresql-42.7.5.jar
 │   ├── Main.java
 │   ├── models
 │   │   └── Sala.java
@@ -21,6 +23,9 @@ Proiect_Etapa1
 │   │   └── Profesor.java
 │   │   └── Student.java
 │   └── services
+│       └── AuditService.java
+│       └── DatabaseConnection.java
+│       └── RezervareService.java
 │       └── Service.java
 ├── .gitignore
 └── README.md
@@ -33,13 +38,13 @@ Proiect_Etapa1
 ### Functionalitati
 
 1. **Creaza cont** - Permite utilizatorilor sa creeze un cont ca `Student` sau `Profesor`.
-2. **Vizualizeaza salile disponibile** - Permite vizualizarea salilor disponibile pentru rezervare.
-3. **Vizualizeaza salile disponibile dintr-o anumita facultate** - Permite vizualizarea salilor disponibile dintr-o facultate aleasa.
-4. **Rezerva o sala de seminar** - Permite utilizatorilor sa rezerveze o sala de seminar.
-5. **Rezerva o sala de laborator** - Permite profesorilor sa rezerveze o sala de laborator.
-6. **Rezerva o sala de curs** - Permite profesorilor sa rezerveze o sala de curs.
-7. **Rezerva mai multe sali** - Permite studentilor sa rezerveze pana la 3 sali simultan.
-8. **Rezerva o sala recurent** - Permite profesorilor sa faca rezervari recurente pentru cursuri.
+2. **Logare** - Permite utilizatorilor sa se logheze intr-un cont existent in baza de date.
+3. **Vizualizeaza salile disponibile** - Permite vizualizarea salilor disponibile pentru rezervare.
+4. **Vizualizeaza salile disponibile dintr-o anumita facultate** - Permite vizualizarea salilor disponibile dintr-o facultate aleasa.
+5. **Rezerva o sala de seminar** - Permite utilizatorilor sa rezerveze o sala de seminar.
+6. **Rezerva o sala de laborator** - Permite profesorilor sa rezerveze o sala de laborator.
+7. **Rezerva o sala de curs** - Permite profesorilor sa rezerveze o sala de curs.
+8. **Rezerva mai multe sali** - Permite studentilor sa rezerveze pana la 3 sali simultan.9
 9. **Vezi rezervarile tale** - Permite utilizatorilor sa vizualizeze rezervarile lor.
 10. **Anuleaza o rezervare** - Permite utilizatorilor sa anuleze sau sa modifice rezervarile existente (pana la 10 modificari).
 
@@ -85,3 +90,10 @@ Clasa principala care contine meniul interactiv si face apeluri catre clasa `Ser
 - **Clasa Principala**:
   - Clasa Main contine doar meniul principal care interactioneaza cu utilizatorul si face apeluri la clasa Service pentru a indeplini cerintele.
 
+## Partea 2:
+- Am folosit **Postgre SQL 17** pentru a stoca date in DB.
+- Pentru functionare corecta trebuie rulat fisierul **SQL_BD** pentru a avea obiecte de tip : sala, facultate pentru a face rezervari. 
+- Programul primeste operatia ceruta de utilizator -> service -> RezervareService(se preiau obiectele din DB) -> returneaza operatia ceruta(scrie in DB daca este cazul) -> raporteaza in audit.csv 
+- Pentru realizarea cerintelor:
+  - Am folosit operatii de create, read, update si delete in RezervareService si am facut clasa RezervareService de tip singleton
+  - Serviciul de Audit se realizeaza prin clasa AuditService care scrie/creaza(daca nu exista) in audit.csv orice operatie facut de utilizator

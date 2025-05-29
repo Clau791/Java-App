@@ -1,18 +1,32 @@
 package models;
 
 public final class Student extends Utilizator{
+
     private int An_Studiu;
     private final int grupa;
     private final int Nr_Matricol;
     private int nr_rez_disponibil = 3;
 
-    public Student(String nume, String email, Facultate facultate, int AnStudiu, int grupa, int nr_matricol) {
-        super(nume, email, facultate);
+    public Student(int id, String nume, String email, int facultate, int AnStudiu, int grupa, int nr_matricol) {
+        super(nume, email, facultate,id);
         this.An_Studiu = AnStudiu;
         this.grupa = grupa;
         this.Nr_Matricol = nr_matricol;
+
     }
 
+    public Student(int id, String nume, String email, int facultate, int AnStudiu, int grupa, int nr_matricol, int nr_rez_disponibil) {
+        super(nume, email, facultate,id);
+        this.An_Studiu = AnStudiu;
+        this.grupa = grupa;
+        this.Nr_Matricol = nr_matricol;
+        this.nr_rez_disponibil = nr_rez_disponibil;
+
+    }
+
+    public int getNr_matricol(){
+        return Nr_Matricol;
+    }
 
     public int getAnStudiu() {
         return An_Studiu;
@@ -40,6 +54,7 @@ public final class Student extends Utilizator{
     @Override
     public void afisareProfil() {
         super.afisareProfil();
+        System.out.println("ID: " + id);
         System.out.println("An studiu: " + An_Studiu);
         System.out.println("Grupa: " + grupa);
         System.out.println("Numar Matricol: " + Nr_Matricol);

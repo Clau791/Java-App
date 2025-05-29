@@ -4,10 +4,12 @@ public final class Profesor extends Utilizator{
 
     private String departament;
 
-    public Profesor(String nume, String email, Facultate facultate, String departament) {
-        super(nume, email, facultate);
+    public Profesor(String nume, String email, int facultate, String departament, int id) {
+        super(nume, email, facultate,id);
         this.departament = departament;
+
     }
+
 
     public String getDepartament() {
         return departament;
