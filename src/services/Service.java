@@ -83,7 +83,7 @@ public class Service {
     public void logheazaContStudent() {
         System.out.print("Email: ");
         String email = scanner.nextLine();
-        System.out.println("Numarul matricol/ID: ");
+        System.out.println("Numarul matricol(student)/ID(profesor, primit la crearea contului): ");
         int nr_matricol = scanner.nextInt();
         scanner.nextLine();
         // cautam utilizatorul in baza de date
