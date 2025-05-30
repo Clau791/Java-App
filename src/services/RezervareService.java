@@ -26,6 +26,14 @@ public class RezervareService {
         return instance;
     }
 
+
+    public void Raporteaza_Logare(String tip){
+        if( tip.equalsIgnoreCase("profesor")){
+            audit.logAction("Logare noua profesor");
+        }else{
+            audit.logAction("Logare noua student");
+        }
+    }
     // CREATE
     // Rezervare(zi, ora, sala_id, student_id, profesor_id)
 

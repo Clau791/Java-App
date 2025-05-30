@@ -35,10 +35,7 @@ public final class AuditService {
         return INSTANCE;
     }
 
-    /**
-     * Înregistrează o acțiune în audit.csv, linie nouă: nume_actiune,timestamp
-     * Metoda este synchronized ⇒ sigură în multi-thread.
-     */
+
     public synchronized void logAction(String actionName) {
         String line = actionName + "," + LocalDateTime.now().format(FORMAT);
         try (BufferedWriter bw = Files.newBufferedWriter(FILE_PATH,

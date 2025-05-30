@@ -94,7 +94,7 @@ public class Service {
             if (s.getEmail().equalsIgnoreCase(email) && s.getNr_matricol() == nr_matricol) {
                 System.out.print("Bine ai venit, " + s.getNume() + "!");
                 student = s;
-
+                r.Raporteaza_Logare("student");
                 break;
             }
         }
@@ -102,7 +102,7 @@ public class Service {
             if(p.getEmail().equalsIgnoreCase(email) && p.getId() == nr_matricol){
                 profesor = p;
                 System.out.print("Bine ai venit, " + p.getNume() + "!");
-
+                r.Raporteaza_Logare("profesor");
                 break;
             }
         }
